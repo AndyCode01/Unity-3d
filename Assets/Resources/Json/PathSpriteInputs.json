@@ -1,0 +1,26 @@
+{
+  "XboxGamepad": {
+    "Path":"InputPromptsPack\\XGamepad\\Default",
+    "UseTool":"T_X_X_Color",
+    "Pause":"T_X_X",
+    "Sprint":"T_X_RT",
+    "Jump":"T_X_A_Color",
+    "BackButton":"T_X_B_Color"
+  },
+  "KeyboardMouse": {
+    "Path":"InputPromptsPack\\Keyboard_Mouse\\Dark",
+    "UseTool":"T_Mouse_Left_Key_Dark",
+    "Pause":"T_Esc_Key_Dark",
+    "Sprint":"T_Shift_Key_Dark",
+    "Jump":"T_Space_Key_Dark",
+    "BackButton":"T_G_Key_Dark"
+  },
+  "PsGamepad": {
+    "Path":"InputPromptsPack\\P4Gamepad\\Default",
+    "UseTool":"T_P4_Square_Color",
+    "Pause":"T_P4_Touch_Pad",
+    "Sprint":"T_P4_R2",
+    "Jump":"T_P4_Cross_Color",
+    "BackButton":"T_P4_Circle_Color"
+  }
+}
