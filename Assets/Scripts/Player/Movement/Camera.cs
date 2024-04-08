@@ -6,7 +6,7 @@ public class MouseMovement : MonoBehaviour
 {
    public float mouseSensitivity = 15f;
    public float gamepadSensitivity = 150f;
-   public PlayerInput _playerInput;
+   private PlayerInput _playerInput;
     float xRotation = 0f;
     float YRotation = 0f;
  

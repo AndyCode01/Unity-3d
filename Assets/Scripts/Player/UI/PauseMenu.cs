@@ -8,12 +8,20 @@ public class HandlerMenu : MonoBehaviour
 {
     public PlayerInput _playerInput;
     public GameObject UI_PauseMenu;
+    private bool isGamePaused = false;
 
     void Update()
     {
         if(_playerInput.actions["Pause"].WasPressedThisFrame())
         {
-            UI_PauseMenu.SetActive(!UI_PauseMenu.activeSelf);
+            TogglePause();
         }
+    }
+
+    void TogglePause()
+    {
+        isGamePaused = !isGamePaused;
+        Time.timeScale = isGamePaused ? 0 : 1;
+        UI_PauseMenu.SetActive(isGamePaused);
     }
 }

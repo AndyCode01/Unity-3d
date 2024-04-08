@@ -3,15 +3,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public CharacterController controller;
-    public PlayerInput _playerInput;
+    private CharacterController controller;
+    private PlayerInput _playerInput;
 
     public float defaultSpeed = 5f;
-    public float gravity = -9.81f * 2;
     public float jumpHeight = 3f;
- 
+    public float massHandleItem;
+
+
+    float gravity = -9.81f * 2;
+    float groundDistance = 0.4f;
+
     public Transform groundCheck;
-    public float groundDistance = 0.4f;
     public LayerMask groundMask;
     public Animator player_animator;
     private string currentState;
@@ -25,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         _playerInput = GetComponent<PlayerInput>();
+        controller = GetComponent<CharacterController>();
     }
  
     // Update is called once per frame
@@ -40,8 +44,10 @@ public class PlayerMovement : MonoBehaviour
         Jump();
     }
 
-    public void HandleHandItem()
+    public void HandleHandItem(float massItem)
     {
+        massHandleItem =  massItem/2.5f;
+        if(massItem>12) massHandleItem= defaultSpeed;
         isHaveAtHandItem= !isHaveAtHandItem;
     } 
 
@@ -54,13 +60,8 @@ public class PlayerMovement : MonoBehaviour
             Animations(movementInput.x,movementInput.y);
             Vector3 moveDirection = transform.TransformDirection(new Vector3(movementInput.x, 0, movementInput.y));
             horizontalVelocity = Vector3.ProjectOnPlane(moveDirection, Vector3.up);
-            if( _playerInput.actions["Sprint"].IsPressed() && !isHaveAtHandItem){
-                speed = (float)(defaultSpeed * 2);
-            } 
-            if(isHaveAtHandItem)
-            {
-                speed = defaultSpeed - 3f;
-            }
+            if( _playerInput.actions["Sprint"].IsPressed() && !isHaveAtHandItem) speed = (float)(defaultSpeed * 2);
+            if(isHaveAtHandItem) speed = defaultSpeed - massHandleItem;
         }
         controller.Move(horizontalVelocity * speed * Time.deltaTime);
     }
@@ -127,6 +128,14 @@ public class PlayerMovement : MonoBehaviour
         if(x == 0 && z == 0){
             ChangeAnimationState("Idle");
         }
+    }
+
+    public void OnControlActivated(InputAction.CallbackContext context)
+    {
+        // Obtén el control que activó la acción
+        var control = context.control;
+        // Muestra el nombre del botón mapeado
+        Debug.Log($"Botón pulsado: {control.name}");
     }
 
 }

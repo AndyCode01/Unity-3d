@@ -3,6 +3,7 @@ using UnityEngine;
 public class HandleCursor : MonoBehaviour
 {
     public GameObject player;
+    public IconInput icon;
     PlayerMovement body;
     Ray rayo;
     RaycastHit hit;
@@ -62,12 +63,13 @@ public class HandleCursor : MonoBehaviour
         if (Physics.Raycast(rayo, out hit))
         {
             distance = hit.transform.position - player.transform.position;
-            if (hit.transform.CompareTag("HandObject") && distance.magnitude <= 1.5f)
+            if (hit.transform.CompareTag("HandItem") && distance.magnitude <= 2f)
             {
                 hit.rigidbody.isKinematic = true;
                 hit.transform.position = player.transform.position + player.transform.forward ;
                 hit.transform.parent = player.transform;
-                body.HandleHandItem();
+                body.HandleHandItem(hit.rigidbody.mass);
+                icon.SwitchItemInHand();
                 return hit;
             }
         }
@@ -79,7 +81,8 @@ public class HandleCursor : MonoBehaviour
         hit.transform.rotation= Quaternion.Euler(0,0,0);
         hit.transform.position =  new Vector3(player.transform.position.x, 1, player.transform.position.z) + player.transform.forward ;
         hit.rigidbody.isKinematic = false;
-        body.HandleHandItem();
+        body.HandleHandItem(0f);
+        icon.SwitchItemInHand();
         hit.transform.parent = null;
     }
 }

@@ -74,5 +74,9 @@ public class Tools_Equipment : MonoBehaviour
         }
     }
 
+    public string GetToolActive()
+    {
+        return Tool_active;
+    }
 
 }
