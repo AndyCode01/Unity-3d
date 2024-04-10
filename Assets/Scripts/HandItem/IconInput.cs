@@ -46,11 +46,12 @@ public class IconInput : MonoBehaviour
             {
                 pathSprite = spriteByAction[InputDevices.KeyboardMouse][Actions.Path] + "\\" + spriteByAction[InputDevices.KeyboardMouse][Actions.UseTool];
             }
+            if(tools_Equipment.GetToolEquipment() != "Hand") icon.SetActive(false);
             spriteIcon = Resources.Load<Sprite>(pathSprite);
             Texture2D texture = SpriteToTexture2D(spriteIcon);
             iconRenderer.material.mainTexture = texture;
 
-            if(tools_Equipment.GetToolActive() != "") icon.SetActive(false);
+            
             
         }
     }

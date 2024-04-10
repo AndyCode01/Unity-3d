@@ -1,27 +1,28 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Tools_Equipment : MonoBehaviour
 {
     public PlayerInput _playerInput;
-    public HandleCursor handleCursor;
+    
+    public HandItem handItem;
 
-    RaycastHit handItem = new RaycastHit();
-    string Tool_active="";
+    string Tool_active="Hand";
    
     void Update()
     {
-        if(handItem.collider == null)
+        if(handItem.HandleHandItem(0f)==0)
         {
             SwitchTools();
-            UseTool();
         }
 
-        if(_playerInput.actions["BackButton"].WasPerformedThisFrame() && handItem.collider != null)
+        if(_playerInput.actions["BackButton"].WasPerformedThisFrame() && handItem.HandleHandItem(0f)!=0)
         {
-            handleCursor.DropAtHandObject(handItem);
-            handItem=new RaycastHit();
+            handItem.DropAtHandObject();
         }
+
+        UseTool();
     }
 
     void SwitchTools()
@@ -39,24 +40,9 @@ public class Tools_Equipment : MonoBehaviour
         }
         if(tools.y == -1)
         {
-            Tool_active="";
+            Tool_active="Hand";
             Equipping(Tool_active);
         }
-    }
-
-    void UseTool()
-    {
-        if (_playerInput.actions["UseTool"].WasPressedThisFrame())
-        {
-            if(Tool_active != "")
-            {
-                Debug.Log("Estas usando la " + Tool_active);
-            }
-            else{
-                handItem = handleCursor.IsPointingAtHandObject();
-            }    
-        }
-
     }
 
     void Equipping(string toolName)
@@ -74,7 +60,31 @@ public class Tools_Equipment : MonoBehaviour
         }
     }
 
-    public string GetToolActive()
+    
+    void UseTool()
+    {
+        if (_playerInput.actions["UseTool"].WasPressedThisFrame())
+        {
+            switch (Tool_active)
+            {
+                case "Hand":
+                handItem.IsPointingAtHandItem();
+                break;
+                
+
+            }
+            // if(Tool_active != "")
+            // {
+            //     Debug.Log("Estas usando la " + Tool_active);
+            // }
+            // else{
+            //     handItem = handItem.IsPointingAtHandObject();
+            // }    
+        }
+
+    }
+
+    public string GetToolEquipment()
     {
         return Tool_active;
     }

@@ -5,10 +5,10 @@ public class PlayerMovement : MonoBehaviour
 {
     private CharacterController controller;
     private PlayerInput _playerInput;
+    public HandItem handItem;
 
     public float defaultSpeed = 5f;
     public float jumpHeight = 3f;
-    public float massHandleItem;
 
 
     float gravity = -9.81f * 2;
@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     public Animator player_animator;
     private string currentState;
     bool isGrounded;
-    bool isHaveAtHandItem=false;
+
 
     Vector3 velocity;
     Vector3 horizontalVelocity;
@@ -34,7 +34,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //checking if we hit the ground to reset our falling velocity, otherwise we will fall faster the next time
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if (isGrounded && velocity.y < 0)
         {
@@ -44,12 +43,7 @@ public class PlayerMovement : MonoBehaviour
         Jump();
     }
 
-    public void HandleHandItem(float massItem)
-    {
-        massHandleItem =  massItem/2.5f;
-        if(massItem>12) massHandleItem= defaultSpeed;
-        isHaveAtHandItem= !isHaveAtHandItem;
-    } 
+    
 
     void Movement()
     {   
@@ -60,16 +54,18 @@ public class PlayerMovement : MonoBehaviour
             Animations(movementInput.x,movementInput.y);
             Vector3 moveDirection = transform.TransformDirection(new Vector3(movementInput.x, 0, movementInput.y));
             horizontalVelocity = Vector3.ProjectOnPlane(moveDirection, Vector3.up);
-            if( _playerInput.actions["Sprint"].IsPressed() && !isHaveAtHandItem) speed = (float)(defaultSpeed * 2);
-            if(isHaveAtHandItem) speed = defaultSpeed - massHandleItem;
+            if( _playerInput.actions["Sprint"].IsPressed() && handItem.HandleHandItem(defaultSpeed)==0) speed = (float)(defaultSpeed * 2);
+            if(handItem.HandleHandItem(defaultSpeed)!=0) speed = defaultSpeed - handItem.HandleHandItem(defaultSpeed);
         }
         controller.Move(horizontalVelocity * speed * Time.deltaTime);
     }
 
+
+
     void Jump()
     {
         //check if the player is on the ground so he can jump
-        if (_playerInput.actions["Jump"].WasPressedThisFrame() && isGrounded && !isHaveAtHandItem)
+        if (_playerInput.actions["Jump"].WasPressedThisFrame() && isGrounded && handItem.HandleHandItem(defaultSpeed)!=0)
         {
             //the equation for jumping
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
@@ -92,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         if (!isMovingDiagonal)
         {
             if (x < -0.1f) {
-                if(_playerInput.actions["Sprint"].IsPressed() && !isHaveAtHandItem)
+                if(_playerInput.actions["Sprint"].IsPressed() && handItem.HandleHandItem(defaultSpeed)!=0)
                 {
                     ChangeAnimationState("Run Left");
                 }
@@ -101,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
                     ChangeAnimationState("Walk Left");
                 }        
             } else if (x > 0.1f) {
-                if(_playerInput.actions["Sprint"].IsPressed() && !isHaveAtHandItem)
+                if(_playerInput.actions["Sprint"].IsPressed() && handItem.HandleHandItem(defaultSpeed)!=0)
                 {
                     ChangeAnimationState("Run Right");
                 }
@@ -115,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
         if (z < -0.1f) {
             ChangeAnimationState("Walk backward");
         } else if (z > 0.1f) {
-            if(_playerInput.actions["Sprint"].IsPressed() && !isHaveAtHandItem)
+            if(_playerInput.actions["Sprint"].IsPressed() && handItem.HandleHandItem(defaultSpeed)!=0)
             {
                 ChangeAnimationState("Run Forward");
             }

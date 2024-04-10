@@ -1,88 +1,53 @@
+using System;
 using UnityEngine;
 
 public class HandleCursor : MonoBehaviour
 {
     public GameObject player;
     public IconInput icon;
-    PlayerMovement body;
+    public SelectLand selectLand;
+    string ObjectAtPoint;
+
     Ray rayo;
     RaycastHit hit;
-    RaycastHit previousLand = new RaycastHit();
     Vector3 distance;
+
 
     void Update()
     {
-        body = player.GetComponent<PlayerMovement>();
         rayo = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         Debug.DrawRay(rayo.origin, rayo.direction * 100, Color.red);
-        IsPointingAtLand();
+        IsPointing();
     }
 
-    void IsPointingAtLand()
+    public bool IsPointing()
     {
         if (Physics.Raycast(rayo, out hit))
         {
             distance = hit.transform.position - player.transform.position;
-            if (hit.transform.CompareTag("Land") && distance.magnitude <= 3f)
+            if (hit.transform.CompareTag("HandItem") && distance.magnitude <= 2f) ObjectAtPoint= hit.transform.tag;
+            if (hit.transform.CompareTag("Land") && distance.magnitude <= 4f)
             {
-                if (previousLand.transform != null)
-                {
-                    if(previousLand.transform != hit.transform)
-                    {
-                        previousLand.transform.Find("Selected").gameObject.SetActive(false);
-                        hit.transform.Find("Selected").gameObject.SetActive(true);
-                    }  
-                }
-                else
-                {
-                    hit.transform.Find("Selected").gameObject.SetActive(true); 
-                }
-                previousLand = hit;            
+                ObjectAtPoint= hit.transform.tag;
+                selectLand.IsPointingAtLand(hit);
+                return false;
             }
-            else
-            {
-                if (previousLand.transform != null)
-                {
-                    previousLand.transform.Find("Selected").gameObject.SetActive(false);
-                    previousLand = new RaycastHit();
-                }  
-            }     
+            
         }
-        else
-        {
-            if (previousLand.transform != null)
-            {
-                previousLand.transform.Find("Selected").gameObject.SetActive(false);
-                previousLand = new RaycastHit();
-            }  
+        else{
+            ObjectAtPoint=null;
         }
+        selectLand.UnselectLand();
+        return false;
+    }    
+
+    public string GetObjectAtPoint()
+    {
+        return ObjectAtPoint;
     }
 
-    public RaycastHit IsPointingAtHandObject()
+    public RaycastHit GetHit()
     {
-        if (Physics.Raycast(rayo, out hit))
-        {
-            distance = hit.transform.position - player.transform.position;
-            if (hit.transform.CompareTag("HandItem") && distance.magnitude <= 2f)
-            {
-                hit.rigidbody.isKinematic = true;
-                hit.transform.position = player.transform.position + player.transform.forward ;
-                hit.transform.parent = player.transform;
-                body.HandleHandItem(hit.rigidbody.mass);
-                icon.SwitchItemInHand();
-                return hit;
-            }
-        }
-        return new RaycastHit();
-    }
-
-    public void DropAtHandObject(RaycastHit hit)
-    {
-        hit.transform.rotation= Quaternion.Euler(0,0,0);
-        hit.transform.position =  new Vector3(player.transform.position.x, 1, player.transform.position.z) + player.transform.forward ;
-        hit.rigidbody.isKinematic = false;
-        body.HandleHandItem(0f);
-        icon.SwitchItemInHand();
-        hit.transform.parent = null;
+        return hit;
     }
 }
