@@ -168,13 +168,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46caa99103c33e4680048efb7971f95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 3162989647923757723}
-  _playerInput: {fileID: 7763532419790977758}
   defaultSpeed: 5
-  gravity: -9.8
   jumpHeight: 1.2
+  massHandleItem: 0
   groundCheck: {fileID: 0}
-  groundDistance: 0.4
   groundMask:
     serializedVersion: 2
     m_Bits: 256
@@ -193,7 +190,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 15
   gamepadSensitivity: 150
-  _playerInput: {fileID: 7763532419790977758}
 --- !u!114 &7763532419790977758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +230,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6539124612164333327}
   - component: {fileID: 1702283523606429265}
-  - component: {fileID: 6669325492686459258}
   m_Layer: 0
   m_Name: Tools
   m_TagString: Untagged
@@ -272,20 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerInput: {fileID: 7763532419790977758}
-  handleCursor: {fileID: 6669325492686459258}
---- !u!114 &6669325492686459258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8642479654876504323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea1cd05b224ebeb4499b2c7e4d04006f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 5389497513066133676}
+  handleCursor: {fileID: 0}
 --- !u!1001 &1558773390280159485
 PrefabInstance:
   m_ObjectHideFlags: 0
