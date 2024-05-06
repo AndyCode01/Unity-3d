@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class HandItem : MonoBehaviour
 {
     public GameObject player;
-    IconInput iconInput;
     HandleCursor handleCursor;
     ForEach forEach;
     float massHandleItem=0f;
@@ -14,11 +13,10 @@ public class HandItem : MonoBehaviour
     GameObject hitHandItem;
     Vector3 distance;
     
-    void Start()
+    void Awake()
     {
         handleCursor = GetComponent<HandleCursor>();
         forEach = GetComponent<ForEach>();
-        iconInput = GetComponent<IconInput>();
     }
 
     public float HandleHandItem(float defaultSpeed)
@@ -41,20 +39,29 @@ public class HandItem : MonoBehaviour
 
     public void SetHandItem()
     {
-        hitHandItem  = handleCursor.GetInteractiveObject();
-        if(hitHandItem != null && !ItemInHand && (hitHandItem.transform.tag == "HandItem" ||hitHandItem.transform.tag == "Pot") )
+        if(!ItemInHand)
         {
-            if (distance.magnitude <= 2f)
+            hitHandItem  = handleCursor.GetInteractiveObject();
+            if(hitHandItem != null && (hitHandItem.transform.tag == "HandItem" ||hitHandItem.transform.tag == "Pot") )
             {
-                forEach.SetActivationByGroup(hitHandItem.transform.Find("Icon").gameObject,"null");
-                hitHandItem.transform.tag= "Untagged";
-                hitHandItem.GetComponent<Rigidbody>().isKinematic = true;
-                hitHandItem.transform.position = player.transform.position + player.transform.forward ;
-                hitHandItem.transform.parent = player.transform;
-                massHandleItem=hitHandItem.GetComponent<Rigidbody>().mass;
-                ItemInHand= true;
+                if (distance.magnitude <= 2f)
+                {
+                    ItemOnHand(hitHandItem);
+                }
             }
-        }
+        }   
+    }
+
+    public void ItemOnHand(GameObject item)
+    {
+        if(hitHandItem == null || hitHandItem != item)hitHandItem = item;
+        forEach.SetActivationByGroup(hitHandItem.transform.Find("Icon").gameObject,"null");
+        hitHandItem.transform.tag= "ItemOnHand";
+        hitHandItem.GetComponent<Rigidbody>().isKinematic = true;
+        hitHandItem.transform.position = player.transform.position + player.transform.forward ;
+        hitHandItem.transform.parent = player.transform;
+        massHandleItem=hitHandItem.GetComponent<Rigidbody>().mass;
+        ItemInHand= true;
     }
 
     public void DropAtHandObject()
