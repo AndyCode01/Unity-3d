@@ -8,13 +8,12 @@ public class ControllerInput : MonoBehaviour
     public HandItem handItem;
     GameObject controlScheme, keyboardScheme, currentScheme;
 
-    void Start()
+    void Awake()
     {
         controlScheme = transform.Find("Gamepad").gameObject;
         keyboardScheme = transform.Find("Keyboard").gameObject;
     }
 
-    // Update is called once per frame
     void Update()
     {
         GetUIbyDevice();
@@ -51,7 +50,6 @@ public class ControllerInput : MonoBehaviour
 
     public void SetSpriteToolSelected(string DpadSelect)
     {
-        
         if (currentScheme != null)
         {
             GameObject toolPanel = currentScheme.transform.Find("ToolsPanel").gameObject;
