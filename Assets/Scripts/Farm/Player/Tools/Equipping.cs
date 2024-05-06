@@ -12,10 +12,11 @@ public class Tools_Equipment : MonoBehaviour
     enum Tools {Mini_shovel, Water_can, Hand};
     enum DpadSelect {SelectUp, SelectDown, SelectLeft,SelectRight};
     Dictionary<Tools,DpadSelect> DpadSelectTools = new Dictionary<Tools,DpadSelect>();
-    Tools toolSelected = Tools.Hand;
+    Tools toolSelected;
+    Tools previousTool;
 
     
-    void Start()
+    void Awake()
     {
         DpadSelectTools.Add(Tools.Mini_shovel, DpadSelect.SelectUp);
         DpadSelectTools.Add(Tools.Water_can, DpadSelect.SelectLeft);
@@ -43,14 +44,15 @@ public class Tools_Equipment : MonoBehaviour
         if(tools.y == 1) toolSelected = Tools.Mini_shovel;
         if(tools.x == -1) toolSelected = Tools.Water_can;
         if(tools.y == -1) toolSelected = Tools.Hand;
-        Equipping(toolSelected);
+        if(previousTool!=toolSelected)Equipping(toolSelected);
     }
 
-    void Equipping(Tools toolSelected)
+    void Equipping(Tools tool)
     {
+        previousTool = tool;
         foreach (Transform child in transform)
         {
-            if(child.name == toolSelected.ToString())
+            if(child.name == tool.ToString())
             {
                 child.gameObject.SetActive(true);
             }
@@ -59,13 +61,13 @@ public class Tools_Equipment : MonoBehaviour
                 child.gameObject.SetActive(false);
             }
         }
-        controllerInput.SetSpriteToolSelected(DpadSelectTools[toolSelected].ToString());
+        controllerInput.SetSpriteToolSelected(DpadSelectTools[tool].ToString());
     }
 
 
     public void StringToEnumTool(string tool)
     {
-        Tools toolSelected=Tools.Hand;
+        toolSelected=Tools.Hand;
         switch (tool)
         {
            case "Mini_shovel":
