@@ -16,8 +16,15 @@ public class Farmer : MonoBehaviour, IBind<PlayerData>
     {
         this.data = data;
         this.data.Id = Id;
-        transform.SetPositionAndRotation(data.PlayerPosition, data.PlayerRotation);
-        GameObject[] todosLosObjetos = FindObjectsOfType<GameObject>();
+        if(data.PlayerPosition != new Vector3(0,0,0)) transform.SetPositionAndRotation(data.PlayerPosition, data.PlayerRotation);
+        GameObject[] Objects = GameObject.FindGameObjectsWithTag("HandItem");
+        foreach (GameObject Object in Objects)
+        {
+            if(Object.GetComponent<Pot>())
+            {
+                if(Object.GetComponent<Pot>().GetId() == data.HandItem)handItem.ItemOnHand(Object);
+            }
+        }
         tools_Equipment.StringToEnumTool(data.ToolEquipted);
     }
 
@@ -25,10 +32,16 @@ public class Farmer : MonoBehaviour, IBind<PlayerData>
     {
         data.PlayerPosition = transform.position;
         data.PlayerRotation = transform.rotation;
-        // if(handItem.GetItemInHand())
-        // {
-        //     data.HandItem = GameObject.FindGameObjectWithTag("HandItem").GetComponent<Pot>().GetId();
-        // }
+        if(handItem.GetItemInHand())
+        {
+            foreach (Transform child in transform)
+            {
+                if(child.CompareTag("ItemOnHand"))
+                {
+                    data.HandItem= child.GetComponent<Pot>().GetId();
+                }
+            }
+        }
         data.ToolEquipted = tools_Equipment.GetToolEquipment();
     }
 }
@@ -39,5 +52,5 @@ public class PlayerData : ISaveable {
     public Vector3 PlayerPosition;
     public Quaternion PlayerRotation;
     public string ToolEquipted;
-    public SerializableGuid HandItem{get;set;}
+    public SerializableGuid HandItem;
 }
