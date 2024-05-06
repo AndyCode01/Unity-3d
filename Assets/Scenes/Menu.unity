@@ -317,6 +317,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3532023053052266672, guid: a7a35ee189674934b9287fdd260e21d0, type: 3}
+      propertyPath: gameData.Name
+      value: New Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532023053052266672, guid: a7a35ee189674934b9287fdd260e21d0, type: 3}
+      propertyPath: gameData.CurrentLevelName
+      value: Demo
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532023053052266672, guid: a7a35ee189674934b9287fdd260e21d0, type: 3}
+      propertyPath: gameData.PlayerData.ToolEquipted
+      value: Hand
+      objectReference: {fileID: 0}
     - target: {fileID: 3680762678342804975, guid: a7a35ee189674934b9287fdd260e21d0, type: 3}
       propertyPath: m_Name
       value: System
@@ -364,6 +376,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 1312950650331892252, guid: a7a35ee189674934b9287fdd260e21d0, type: 3}
+    - {fileID: 6210537677001325670, guid: a7a35ee189674934b9287fdd260e21d0, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7a35ee189674934b9287fdd260e21d0, type: 3}
