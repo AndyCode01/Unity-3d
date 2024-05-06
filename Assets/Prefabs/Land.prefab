@@ -155,6 +155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6289449996653454827}
+  - component: {fileID: 5242337763986112505}
   m_Layer: 8
   m_Name: Land
   m_TagString: Land
@@ -180,6 +181,31 @@ Transform:
   - {fileID: 287088306682642748}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5242337763986112505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206559979882396811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b8c90bf182d83b4bb503c341f66e066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Id>k__BackingField:
+    Part1: 1174298707
+    Part2: 1190387825
+    Part3: 3546291865
+    Part4: 1998345036
+  data:
+    <Id>k__BackingField:
+      Part1: 0
+      Part2: 0
+      Part3: 0
+      Part4: 0
+    LandStatus: 
+    LandPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &386896924164903624
 GameObject:
   m_ObjectHideFlags: 0
