@@ -50,11 +50,11 @@ public class HandleCursor : MonoBehaviour
             // }
             if (hit.transform.CompareTag("Land") && distance.magnitude <= 3f)
             {
-                Transform parent = hit.transform.parent;
-                while (parent.name != "Land")
+                Transform parent  = hit.transform.parent;
+                while (!parent.name.Contains("Land"))
                 {
                     parent = parent.parent;
-                }
+                } 
                 IsPointingAtInteractiveObject(parent.gameObject,"");
                 return hit.transform.tag;
             }
