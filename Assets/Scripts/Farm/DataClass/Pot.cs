@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class Pot : MonoBehaviour, IBind<PotData>
 {
-   [field: SerializeField] public SerializableGuid Id{get;set;} = SerializableGuid.NewGuid();
-   [SerializeField] PotData data;
+   [field: SerializeField] public SerializableGuid Id{get;set;}
+   [SerializeField] public PotData data;
 
     public void Bind(PotData data)
     {
         this.data = data;
         this.data.Id = Id;
-        transform.SetPositionAndRotation(data.PotPosition, data.PotRotation);
+        if(data.PotPosition != new Vector3(0,0,0)) transform.SetPositionAndRotation(data.PotPosition, data.PotRotation);
     }
 
     public SerializableGuid GetId()
@@ -25,6 +25,8 @@ public class Pot : MonoBehaviour, IBind<PotData>
         data.PotPosition = transform.position;
         data.PotRotation = transform.rotation;
     }
+
+    
 
 }
 

@@ -10,7 +10,8 @@ using UnityEngine.SceneManagement;
     public string Name;
     public string CurrentLevelName;
     public PlayerData PlayerData;
-    public PotData PotData;
+    public List<PotData> PotDatas;
+    public List<LandData> LandDatas;
 }
 
 public interface ISaveable
@@ -26,7 +27,11 @@ public interface IBind<TData> where TData : ISaveable{
 
 public class SaveLoadSystem : PersistentSingleton<SaveLoadSystem>
 {
+
    [SerializeField] public GameData gameData;
+   public Crops crops;
+   public FarmerTerrain farmerTerrain;
+
     IDataService dataService;
 
     protected override void Awake()
@@ -44,9 +49,21 @@ public class SaveLoadSystem : PersistentSingleton<SaveLoadSystem>
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if(scene.name == "Menu") return;
+        LoadListData();
         Bind<Farmer,PlayerData>(gameData.PlayerData);
-        Bind<Pot,PotData>(gameData.PotData);
+        Bind<Pot,PotData>(gameData.PotDatas);
+        Bind<Land,LandData>(gameData.LandDatas);
     }
+
+    void LoadListData()
+    {
+        if(gameData.PotDatas.Count>0)crops.loadPot(gameData.PotDatas);  
+        else crops.newPot(new UnityEngine.Vector3(0,0,0),5);  
+
+        if(gameData.LandDatas.Count>0)farmerTerrain.loadLand(gameData.LandDatas);  
+        else farmerTerrain.newLand(new UnityEngine.Vector3(4,0,4),5);  
+    }
+
 
     void Bind<T, TData>(TData data) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new() 
     {
@@ -62,7 +79,7 @@ public class SaveLoadSystem : PersistentSingleton<SaveLoadSystem>
     void Bind<T, TData>(List<TData> datas) where T: MonoBehaviour, IBind<TData> where TData : ISaveable, new() 
     {
         var entities = FindObjectsByType<T>(FindObjectsSortMode.None);
-
+        
         foreach(var entity in entities) {
             var data = datas.FirstOrDefault(d=> d.Id == entity.Id);
             if (data == null) {
@@ -82,13 +99,11 @@ public class SaveLoadSystem : PersistentSingleton<SaveLoadSystem>
             {
                 PlayerPosition = new UnityEngine.Vector3(0,0,0),
                 PlayerRotation = new UnityEngine.Quaternion(0,0,0,0),
-                ToolEquipted = "Hand"
+                ToolEquipted = "Hand",
+                HandItem = SerializableGuid.Empty
             },
-            PotData = new PotData
-            {
-                PotPosition = new UnityEngine.Vector3(0,0,0),
-                PotRotation = new UnityEngine.Quaternion(0,0,0,0),
-            }
+            PotDatas = new List<PotData>(),
+            LandDatas = new List<LandData>()
 
         };
         SceneManager.LoadScene(gameData.CurrentLevelName);

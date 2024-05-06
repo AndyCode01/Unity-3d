@@ -23,7 +23,7 @@ public class HandleMaterials : MonoBehaviour
 
     public string StatusLand()
     {
-        landStatus = GetLandStatus();
+        landStatus = SetLandStatus();
         switch (landStatus)
         {
             case LandStatus.Soil:
@@ -38,10 +38,16 @@ public class HandleMaterials : MonoBehaviour
         return "Mini_shovel";
     }
 
-    LandStatus GetLandStatus()
+    LandStatus SetLandStatus()
     {
-        GameObject Land = handleCursor.GetInteractiveObject().transform.Find("Phases").gameObject;
+        GameObject Land = handleCursor.GetInteractiveObject();
+        landStatus = SearchStatus(Land.transform.Find("Phases").gameObject);
+        Land.GetComponent<Land>().data.LandStatus = landStatus.ToString();
+        return landStatus;
+    }
 
+    LandStatus SearchStatus(GameObject Land)
+    {
         foreach (Transform child in Land.transform)
         {
             if(child.gameObject.activeSelf)
@@ -64,8 +70,11 @@ public class HandleMaterials : MonoBehaviour
 
     public void DrillHole()
     {
-        GameObject Land = handleCursor.GetInteractiveObject().transform.Find("Phases").gameObject;
-        if(Land.transform.Find("LandPhase1").gameObject.activeSelf)forEach.SetActivationByGroup(Land,"LandPhase2");
+        if (handleCursor.GetInteractiveObject() != null)
+        {
+            GameObject Land = handleCursor.GetInteractiveObject().transform.Find("Phases").gameObject;
+            if(Land.transform.Find("LandPhase1").gameObject.activeSelf)forEach.SetActivationByGroup(Land,"LandPhase2");
+        }
     } 
 
     public void Plant()
@@ -82,9 +91,12 @@ public class HandleMaterials : MonoBehaviour
 
     public void WaterPlant()
     {
-        GameObject Land = handleCursor.GetInteractiveObject().transform.Find("Phases").gameObject;
-        if(Land.transform.Find("CoffeePhase1").gameObject.activeSelf)forEach.SetActivationByGroup(Land,"CoffeePhase2");
-        StartCoroutine(GrownUpPlant(Land));
+        if (handleCursor.GetInteractiveObject() != null)
+        {
+            GameObject Land = handleCursor.GetInteractiveObject().transform.Find("Phases").gameObject;
+            if(Land.transform.Find("CoffeePhase1").gameObject.activeSelf)forEach.SetActivationByGroup(Land,"CoffeePhase2");
+            StartCoroutine(GrownUpPlant(Land));
+        }    
     }
 
     IEnumerator  GrownUpPlant(GameObject Land)
