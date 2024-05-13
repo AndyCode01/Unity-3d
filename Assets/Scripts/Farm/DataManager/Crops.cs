@@ -8,7 +8,12 @@ public class Crops : MonoBehaviour
 
     public GameObject potPrefab;
     public float radio = 0.5f;
+    SaveLoadSystem saveLoadSystem;
 
+    void Awake()
+    {
+        saveLoadSystem = GetComponent<SaveLoadSystem>();
+    }
 
     public List<PotData> newPot(Vector3 positionGroup, int quantityPot)
     {
@@ -17,7 +22,7 @@ public class Crops : MonoBehaviour
         for (int i = 0; i < quantityPot; i++)
         {
             float angle = angleStep * i;
-            Vector3 positionPot = positionGroup + new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0, Mathf.Sin(angle * Mathf.Deg2Rad)) * radio;
+            Vector3 positionPot = positionGroup + new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), positionGroup.y, Mathf.Sin(angle * Mathf.Deg2Rad)) * radio;
             GameObject potObject = Instantiate(potPrefab,positionPot,Quaternion.identity);
             potObject.GetComponent<Pot>().Id = SerializableGuid.NewGuid();
             potDatas.Add(potObject.GetComponent<Pot>().data);
@@ -34,5 +39,12 @@ public class Crops : MonoBehaviour
             GameObject potObject = Instantiate(potPrefab,pot.PotPosition,pot.PotRotation);
             potObject.GetComponent<Pot>().Id = pot.Id;
         }
+    }
+
+    public void removePod(SerializableGuid idPot)
+    {
+        List<PotData> listPot = saveLoadSystem.gameData.PotDatas;
+        PotData PotAtRemove =listPot.Find(pot => pot.Id == idPot);
+        listPot.Remove(PotAtRemove);
     }
 }

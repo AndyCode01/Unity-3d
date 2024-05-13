@@ -24,6 +24,10 @@ public class Farmer : MonoBehaviour, IBind<PlayerData>
             {
                 if(Object.GetComponent<Pot>().GetId() == data.HandItem)handItem.ItemOnHand(Object);
             }
+            else if(Object.GetComponent<Basket>())
+            {
+                if(Object.GetComponent<Basket>().GetId() == data.HandItem)handItem.ItemOnHand(Object);
+            }
         }
         tools_Equipment.StringToEnumTool(data.ToolEquipted);
     }
@@ -32,13 +36,14 @@ public class Farmer : MonoBehaviour, IBind<PlayerData>
     {
         data.PlayerPosition = transform.position;
         data.PlayerRotation = transform.rotation;
-        if(handItem.GetItemInHand())
+        if(handItem.FlagHaveItem())
         {
             foreach (Transform child in transform)
             {
                 if(child.CompareTag("ItemOnHand"))
                 {
-                    data.HandItem= child.GetComponent<Pot>().GetId();
+                    if(child.GetComponent<Pot>())data.HandItem= child.GetComponent<Pot>().GetId();
+                    else if(child.GetComponent<Basket>())data.HandItem= child.GetComponent<Basket>().GetId();
                 }
             }
         }

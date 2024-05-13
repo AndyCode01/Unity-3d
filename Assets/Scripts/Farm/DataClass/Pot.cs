@@ -26,8 +26,14 @@ public class Pot : MonoBehaviour, IBind<PotData>
         data.PotRotation = transform.rotation;
     }
 
-    
+    public delegate void ObjectDestroyedAction();
+    public static event ObjectDestroyedAction OnObjectDestroyed;
 
+    void OnDestroy()
+    {
+        GameObject dataObject =  GameObject.Find("Data");
+        if(dataObject != null) dataObject.GetComponent<Crops>().removePod(Id);
+    }
 }
 
 [Serializable]

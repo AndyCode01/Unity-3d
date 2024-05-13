@@ -5,7 +5,7 @@ using UnityEngine;
 public class FarmerTerrain : MonoBehaviour
 {
     public GameObject landPrefab;
-    public float distance = 1f;
+    public float distance = 8f;
 
     public List<LandData> newLand(Vector3 startPosition,int quantityLand)
     {
@@ -13,9 +13,9 @@ public class FarmerTerrain : MonoBehaviour
         int rowSize = (int)Mathf.Sqrt(quantityLand);
         for (int i = 0; i < quantityLand; i++)
         {
-            float x = startPosition.x + (i % rowSize) * distance;
-            float z = startPosition.z - (i / rowSize) * distance;
-            Vector3 position = new Vector3(x, 0, z); 
+            float x = startPosition.x;
+            float z = startPosition.z - (landPrefab.transform.lossyScale.z*i);
+            Vector3 position = new Vector3(x, startPosition.y, z); 
             GameObject landObject = Instantiate(landPrefab, position, Quaternion.identity);
             landObject.GetComponent<Land>().Id = SerializableGuid.NewGuid();
             landDatas.Add(landObject.GetComponent<Land>().data);
