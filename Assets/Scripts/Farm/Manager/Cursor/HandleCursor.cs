@@ -1,4 +1,5 @@
 using System;
+using DialogueEditor;
 using UnityEngine;
 
 public class HandleCursor : MonoBehaviour
@@ -6,6 +7,7 @@ public class HandleCursor : MonoBehaviour
     public GameObject player;
     HandItem handItem;
     IconInput iconInput;
+    ConversationStart conversationStart;
     ForEach forEach;
     string ObjectAtPoint;
     Ray rayo;
@@ -13,8 +15,9 @@ public class HandleCursor : MonoBehaviour
     GameObject previousInteractiveObject;
     float pointHitY;
 
-    void Start()
+    void Awake()
     {
+        conversationStart= GetComponent<ConversationStart>();
         iconInput = GetComponent<IconInput>();
         forEach = GetComponent<ForEach>();
         handItem = GetComponent<HandItem>();
@@ -22,9 +25,12 @@ public class HandleCursor : MonoBehaviour
 
     void Update()
     {
-        rayo = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-        // Debug.DrawRay(rayo.origin, rayo.direction * 100, Color.red);
-        ObjectAtPoint = IsPointing();
+        if(player.transform.parent.gameObject.activeSelf)
+        {
+            rayo = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            // Debug.DrawRay(rayo.origin, rayo.direction * 100, Color.red);
+            ObjectAtPoint = IsPointing();
+        }
     }
 
     public float GetHitPointY()
@@ -38,16 +44,11 @@ public class HandleCursor : MonoBehaviour
         {
             pointHitY=hit.point.y;
             Vector3 distance = hit.transform.position - player.transform.position;
-            if (hit.transform.CompareTag("HandItem") && distance.magnitude <= 2f && !handItem.GetItemInHand())
+            if (hit.transform.CompareTag("HandItem") && distance.magnitude <= 3f && !handItem.FlagHaveItem())
             {
                 IsPointingAtInteractiveObject(hit.transform.gameObject,"Hand");
                 return hit.transform.tag;
             }
-            // if (hit.transform.CompareTag("Land") && distance.magnitude <= 3f)
-            // {
-            //     IsPointingAtInteractiveObject(hit.transform.gameObject,"Mini_shovel");
-            //     return hit.transform.tag;
-            // }
             if (hit.transform.CompareTag("Land") && distance.magnitude <= 3f)
             {
                 Transform parent  = hit.transform.parent;
@@ -56,6 +57,12 @@ public class HandleCursor : MonoBehaviour
                     parent = parent.parent;
                 } 
                 IsPointingAtInteractiveObject(parent.gameObject,"");
+                return hit.transform.tag;
+            }
+            if (hit.transform.CompareTag("Character") && distance.magnitude <= 3f)
+            {
+                IsPointingAtInteractiveObject(hit.transform.gameObject,"");
+                conversationStart.InstanceConversation(previousInteractiveObject.GetComponent<NPCConversation>());
                 return hit.transform.tag;
             }
             

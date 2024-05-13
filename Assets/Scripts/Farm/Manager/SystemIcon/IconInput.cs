@@ -27,7 +27,7 @@ public class IconInput : MonoBehaviour
     }
     void Update()
     {
-        if(handleCursor.GetObjectAtPoint() == "HandItem" || handleCursor.GetObjectAtPoint() == "Land")
+        if(handleCursor.GetObjectAtPoint() == "HandItem" || handleCursor.GetObjectAtPoint() == "Land" || handleCursor.GetObjectAtPoint() == "Character")
         {
             icon = GetIcon(handleCursor.GetInteractiveObject());
             if(icon.name == "PrincipalIcon") SwitchIconInput();

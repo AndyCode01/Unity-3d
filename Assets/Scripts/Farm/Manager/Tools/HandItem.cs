@@ -26,9 +26,14 @@ public class HandItem : MonoBehaviour
         return speedWithItem;
     } 
 
-    public bool GetItemInHand()
+    public bool FlagHaveItem()
     {
         return ItemInHand;
+    }
+
+    public GameObject GetItemInHand()
+    {
+        return hitHandItem;
     }
 
     public void SetActiveIcon(GameObject icon)
@@ -42,12 +47,9 @@ public class HandItem : MonoBehaviour
         if(!ItemInHand)
         {
             hitHandItem  = handleCursor.GetInteractiveObject();
-            if(hitHandItem != null && (hitHandItem.transform.tag == "HandItem" ||hitHandItem.transform.tag == "Pot") )
+            if(hitHandItem != null && (hitHandItem.transform.tag == "HandItem") )
             {
-                if (distance.magnitude <= 2f)
-                {
-                    ItemOnHand(hitHandItem);
-                }
+                ItemOnHand(hitHandItem);
             }
         }   
     }
@@ -57,6 +59,7 @@ public class HandItem : MonoBehaviour
         if(hitHandItem == null || hitHandItem != item)hitHandItem = item;
         forEach.SetActivationByGroup(hitHandItem.transform.Find("Icon").gameObject,"null");
         hitHandItem.transform.tag= "ItemOnHand";
+        ChangeLayerRecursively(hitHandItem.transform, LayerMask.NameToLayer("Tools"));
         hitHandItem.GetComponent<Rigidbody>().isKinematic = true;
         hitHandItem.transform.position = player.transform.position + player.transform.forward ;
         hitHandItem.transform.parent = player.transform;
@@ -64,16 +67,28 @@ public class HandItem : MonoBehaviour
         ItemInHand= true;
     }
 
-    public void DropAtHandObject()
+    void ChangeLayerRecursively(Transform trans, int layer)
+    {
+        trans.gameObject.layer = layer;
+        foreach (Transform child in trans)
+        {
+            ChangeLayerRecursively(child, layer);
+        }
+    }
+
+
+    public void DropAtHandObject(bool destroyObject=false)
     {
         if(ItemInHand)
         {
             hitHandItem.transform.tag= "HandItem";
+            ChangeLayerRecursively(hitHandItem.transform, LayerMask.NameToLayer("Default"));
             hitHandItem.transform.rotation= Quaternion.Euler(0,0,0);
             hitHandItem.transform.parent = null;
             hitHandItem.transform.position =  new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z) + player.transform.forward ;
             hitHandItem.GetComponent<Rigidbody>().isKinematic = false;
             massHandleItem=0f;
+            if(destroyObject == true)Destroy(hitHandItem);
             hitHandItem = null;
             ItemInHand= false;
         }
