@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     Vector3 horizontalVelocity;
     
     
-    void Start()
+    void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
         controller = GetComponent<CharacterController>();
@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
     void Jump()
     {
         //check if the player is on the ground so he can jump
-        if (_playerInput.actions["Jump"].WasPressedThisFrame() && isGrounded && !handItem.GetItemInHand())
+        if (_playerInput.actions["Jump"].WasPressedThisFrame() && isGrounded && !handItem.FlagHaveItem())
         {
             //the equation for jumping
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         if (!isMovingDiagonal)
         {
             if (x < -0.1f) {
-                if(_playerInput.actions["Sprint"].IsPressed() && !handItem.GetItemInHand())
+                if(_playerInput.actions["Sprint"].IsPressed() && !handItem.FlagHaveItem())
                 {
                     ChangeAnimationState("Run Left");
                 }
@@ -97,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
                     ChangeAnimationState("Walk Left");
                 }        
             } else if (x > 0.1f) {
-                if(_playerInput.actions["Sprint"].IsPressed() && !handItem.GetItemInHand())
+                if(_playerInput.actions["Sprint"].IsPressed() && !handItem.FlagHaveItem())
                 {
                     ChangeAnimationState("Run Right");
                 }
@@ -111,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
         if (z < -0.1f) {
             ChangeAnimationState("Walk backward");
         } else if (z > 0.1f) {
-            if(_playerInput.actions["Sprint"].IsPressed() && !handItem.GetItemInHand())
+            if(_playerInput.actions["Sprint"].IsPressed() && !handItem.FlagHaveItem())
             {
                 ChangeAnimationState("Run Forward");
             }

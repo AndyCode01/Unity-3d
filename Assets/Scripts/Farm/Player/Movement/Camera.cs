@@ -33,7 +33,7 @@ public class MouseMovement : MonoBehaviour
       }   
       Vector2 cameraInput = _playerInput.actions["Look"].ReadValue<Vector2>() * sensitivity * Time.deltaTime;
       float lockDownLimit=0, lockUpLimit=0;
-      if(handItem.GetItemInHand())
+      if(handItem.FlagHaveItem())
       {
          lockDownLimit = lockUpLimit=40f;
       }
