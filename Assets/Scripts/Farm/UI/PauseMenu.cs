@@ -22,6 +22,7 @@ public class HandlerMenu : MonoBehaviour
     {
         isGamePaused = !isGamePaused;
         Time.timeScale = isGamePaused ? 0 : 1;
+        _playerInput.SwitchCurrentActionMap(isGamePaused ? "Pause" : "Player");
         UI_PauseMenu.SetActive(isGamePaused);
     }
 }

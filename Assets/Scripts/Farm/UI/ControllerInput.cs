@@ -17,6 +17,8 @@ public class ControllerInput : MonoBehaviour
     void Update()
     {
         GetUIbyDevice();
+        SetHelps();
+        GetHelps();
     }
 
     void GetUIbyDevice()
@@ -38,7 +40,7 @@ public class ControllerInput : MonoBehaviour
 
     void ActiveSpriteHandItem()
     {
-        if (handItem.GetItemInHand())
+        if (handItem.FlagHaveItem())
         {
             currentScheme.transform.Find("HandItem").gameObject.SetActive(true);
         }
@@ -65,5 +67,26 @@ public class ControllerInput : MonoBehaviour
                 }
             }
         } 
+    }
+
+    void SetHelps()
+    {
+        if(_playerInput.actions["Helps"].WasPressedThisFrame())
+        {
+            currentScheme.transform.Find("Helps").gameObject.SetActive(currentScheme.transform.Find("Helps").gameObject.activeSelf ? false : true);
+        }
+    }
+
+    void GetHelps()
+    {
+        if(_playerInput.currentActionMap.name != "Pause")
+        {
+            foreach (Transform item in currentScheme.transform.Find("Helps"))
+            {
+                if(item.name != _playerInput.currentActionMap.name && item.name != "Panel" && item.name != "SetHelp") item.gameObject.SetActive(false);
+                else item.gameObject.SetActive(true);
+            }
+        }
+        
     }
 }
