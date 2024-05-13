@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8579595200845876290}
   - component: {fileID: 1637205760290519951}
   - component: {fileID: 573345826817249501}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hand
   m_TagString: Icon
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 6828893673157151565}
   - component: {fileID: 2538403225708023152}
   - component: {fileID: 1436563338490755117}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Item
   m_TagString: Icon
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 8243373699111698654}
   - component: {fileID: 2671618121890910275}
   - component: {fileID: 4319018979074127503}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 654042198644147189}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -332,7 +332,7 @@ GameObject:
   - component: {fileID: 7994744090231886160}
   - component: {fileID: 292695052895375722}
   - component: {fileID: 160813571115667495}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 6963691116646606103}
   - component: {fileID: 4391613047583683008}
   - component: {fileID: 5537146098864655002}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PrincipalIcon
   m_TagString: Icon
   m_Icon: {fileID: 0}
@@ -503,6 +503,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8949878074257426679, guid: e46f2aa6717503d4dbedbac3bf8afbc8, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e46f2aa6717503d4dbedbac3bf8afbc8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.873214
@@ -543,9 +547,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8391222552659086748, guid: e46f2aa6717503d4dbedbac3bf8afbc8, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -5879151749994014181, guid: e46f2aa6717503d4dbedbac3bf8afbc8, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e46f2aa6717503d4dbedbac3bf8afbc8, type: 3}
       propertyPath: m_Name
       value: Pot
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e46f2aa6717503d4dbedbac3bf8afbc8, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e46f2aa6717503d4dbedbac3bf8afbc8, type: 3}
       propertyPath: m_TagString
@@ -604,7 +620,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
