@@ -9,7 +9,7 @@ public class Tools_Equipment : MonoBehaviour
     public HandItem handItem;
     public HandleMaterials handleMaterials;
     public ControllerInput controllerInput;
-    enum Tools {Mini_shovel, Water_can, Hand};
+    enum Tools {Mini_shovel, Water_can, Hand, Pot, Basket};
     enum DpadSelect {SelectUp, SelectDown, SelectLeft,SelectRight};
     Dictionary<Tools,DpadSelect> DpadSelectTools = new Dictionary<Tools,DpadSelect>();
     Tools toolSelected;
@@ -32,7 +32,14 @@ public class Tools_Equipment : MonoBehaviour
 
         if(_playerInput.actions["BackButton"].WasPerformedThisFrame())
         {
+            toolSelected = Tools.Hand;
             handItem.DropAtHandObject();
+        }
+
+        if(handItem.FlagHaveItem())
+        {
+            if(handItem.GetItemInHand().GetComponent<Pot>()) toolSelected = Tools.Pot;
+            else if(handItem.GetItemInHand().GetComponent<Basket>()) toolSelected = Tools.Basket;
         }
 
         UseTool();
@@ -61,6 +68,7 @@ public class Tools_Equipment : MonoBehaviour
                 child.gameObject.SetActive(false);
             }
         }
+        if(tool == Tools.Pot || tool == Tools.Basket)tool = Tools.Hand;
         controllerInput.SetSpriteToolSelected(DpadSelectTools[tool].ToString());
     }
 
@@ -76,6 +84,12 @@ public class Tools_Equipment : MonoBehaviour
            case "Water_can":
            toolSelected = Tools.Water_can;
            break;
+           case "Pot":
+           toolSelected = Tools.Pot;
+           break;
+           case "Basket":
+           toolSelected = Tools.Basket;
+           break;
         }
         Equipping(toolSelected);
     }
@@ -89,13 +103,18 @@ public class Tools_Equipment : MonoBehaviour
             {
                 case Tools.Hand:
                 handItem.SetHandItem();
-                handleMaterials.Plant();
                 break;
                 case Tools.Mini_shovel:
                 handleMaterials.DrillHole();
                 break;
                 case Tools.Water_can:
                 handleMaterials.WaterPlant();
+                break;
+                case Tools.Pot:
+                handleMaterials.Plant();
+                break;
+                case Tools.Basket:
+                handleMaterials.Harvest();
                 break;
 
             }  
