@@ -50,7 +50,7 @@ public class SaveLoadSystem : PersistentSingleton<SaveLoadSystem>
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == "Menu") return;
+        if(scene.name == "MenuUltimate") return;
         if(scene.name == "Level1")LoadListData();
         Bind<Basket,BasketData>(gameData.BasketDatas);
         Bind<Farmer,PlayerData>(gameData.PlayerData);
@@ -75,9 +75,6 @@ public class SaveLoadSystem : PersistentSingleton<SaveLoadSystem>
             farmerTerrain.newLand(new UnityEngine.Vector3(-13.5f,-2.65f,47f),11); 
             farmerTerrain.newLand(new UnityEngine.Vector3(-16f,-2.65f,47f),11); 
             farmerTerrain.newLand(new UnityEngine.Vector3(-18.5f,-2.65f,47f),11); 
-            // farmerTerrain.newLand(new UnityEngine.Vector3(-23f,-2.6f,47f),11); 
-            // farmerTerrain.newLand(new UnityEngine.Vector3(-21f,-2.6f,47f),11);
-            // farmerTerrain.newLand(new UnityEngine.Vector3(-19f,-2.6f,47f),11);
         }
 
         if(gameData.BasketDatas.Count>0)harvestBaskets.loadBasket(gameData.BasketDatas);  
