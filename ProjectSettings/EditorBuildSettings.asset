@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Harvest.unity
     guid: e64f31838a09f7f4383601e6946e1930
+  - enabled: 1
+    path: Assets/Scenes/MenuUltimate.unity
+    guid: 9d198d3e77d3b7f45a2bf8c360a0411a
+  - enabled: 1
+    path: Assets/Scenes/Level1.unity
+    guid: 1ebb73468b14d084ab2391b91328959e
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: f7e464c60494fa34ab5367b10ef945ba, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: ae01b1483350aa94695531bcfaa29b14, type: 2}
